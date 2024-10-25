@@ -9,7 +9,7 @@ def put(my_bst, key, value):
 
 def insert_node(root, key, value):
     if root is None:
-        nodo = bst_node.new_node(key, value)
+        nodo = rbt_node.new_node(key, value)
         root = nodo
     elif bst_node.get_key(root) == key:
         root["value"] = value
@@ -23,13 +23,43 @@ def insert_node(root, key, value):
         root["size"] = 1 + root["right"]["size"]
     if root["right"] is None and root["left"] is not None:
         root["size"] = 1 + root["left"]["size"]
+    
+    
     return root
 
+def rotate_left(node):
+    """ 
+    Rota el hijo derecho hacia la izquierda.
+    Args:
+        node: nodo que tiene hijo derecho rojo.
+    Return:
+        Nuevo nodo con el hijo izquierdo rojo
+    Solución:
+    1. Intercambiar el hijo izquierdo del hijo derecho del nodo
+    por el hijo derecho del nodo.
+    2. Intercambia los colores del nodo y del hijo derecho del nodo
+
+    """
+    #1
+    node["right"]["left"]["left"] = node["right"]
+    node["right"] = node["right"]["left"]
+    #2
+    
+    
 #funciones que en teoría deberían funcionar
-def new_map():
-    mapa = {'root': None,
-     'type': "RBT"}
-    return mapa
+def new_map(cmp_function):
+    """
+    Crear un mapa ordenado basado en un árbol binario ordenado balanceado RBT.
+    El árbol inicialmente esta vacio.
+    """
+    rbt = {'root': None, # rbt_node inicial
+            'cmp_function': cmp_function, # función de comparación de llaves
+            'type': 'RBT' }
+    
+    if(cmp_function is None):
+    rbt['cmp_function'] = default_function
+    return rbt
+
 
 def get(my_bst, key):
     valor = recorrido_get(my_bst['root'], key)
