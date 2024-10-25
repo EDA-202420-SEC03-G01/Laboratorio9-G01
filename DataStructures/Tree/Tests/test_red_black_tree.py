@@ -370,7 +370,7 @@ def test_select():
     assert rbt.select(seven_rbt, 7) == None
 
 
-
+@handle_not_implemented
 def test_rank():
     empty_rbt = setup_tests()
     three_rbt = setup_three_nodes()
@@ -451,7 +451,7 @@ def test_keys():
     assert keys["elements"][6] == 70
 
 
-
+@handle_not_implemented
 def test_values():
     empty_rbt = setup_tests()
     three_rbt = setup_three_nodes()

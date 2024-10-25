@@ -126,7 +126,7 @@ def max_key_node(nodo):
     else:
         return max_key_node(nodo['right'])
     
-#ya hechas
+#ya hechas (Santiago)
 def rank(my_bst, key):
     if my_bst["root"] == None:
         return 0
