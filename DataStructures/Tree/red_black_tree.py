@@ -28,7 +28,7 @@ def insert_node(root, key, value):
 #funciones que en teoría deberían funcionar
 def new_map():
     mapa = {'root': None,
-     'type': "BST"}
+     'type': "RBT"}
     return mapa
 
 def get(my_bst, key):

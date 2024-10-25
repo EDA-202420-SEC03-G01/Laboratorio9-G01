@@ -71,7 +71,6 @@ def setup_seven_nodes():
     return seven_nodes
 
 
-@handle_not_implemented
 def test_new_map():
     empty_rbt = rbt.new_map()
 
@@ -81,7 +80,6 @@ def test_new_map():
     assert empty_rbt["type"] == "RBT"
 
 
-@handle_not_implemented
 def test_put():
     empty_rbt = setup_tests()
     three_rbt = setup_three_nodes()
@@ -166,7 +164,6 @@ def test_put():
 
 
 
-@handle_not_implemented
 def test_get():
     empty_rbt = setup_tests()
     three_rbt = setup_three_nodes()
@@ -183,7 +180,6 @@ def test_get():
     assert rbt.get(three_rbt, 0) is None
     assert rbt.get(three_rbt, 15) is None
 
-@handle_not_implemented
 def test_contains():
     empty_rbt = setup_tests()
     three_rbt = setup_three_nodes()
@@ -201,7 +197,7 @@ def test_contains():
     assert not rbt.contains(three_rbt, 15)
 
 
-@handle_not_implemented
+
 def test_size():
     empty_rbt = setup_tests()
     three_rbt = setup_three_nodes()
@@ -217,7 +213,7 @@ def test_size():
     assert rbt.size(seven_rbt) == 7
 
 
-@handle_not_implemented
+
 def test_is_empty():
     empty_rbt = setup_tests()
     three_rbt = setup_three_nodes()
@@ -229,7 +225,7 @@ def test_is_empty():
     assert not rbt.is_empty(three_rbt)
 
 
-@handle_not_implemented
+
 def test_key_set():
     empty_rbt = setup_tests()
     three_rbt = setup_three_nodes()
@@ -249,7 +245,7 @@ def test_key_set():
     assert key_set["elements"][2] == 10
 
 
-@handle_not_implemented
+
 def test_value_set():
     empty_rbt = setup_tests()
     three_rbt = setup_three_nodes()
@@ -269,7 +265,7 @@ def test_value_set():
     assert value_set["elements"][2] == 100
 
 
-@handle_not_implemented
+
 def test_min_key():
     empty_rbt = setup_tests()
     three_rbt = setup_three_nodes()
@@ -285,7 +281,7 @@ def test_min_key():
     assert rbt.min_key(seven_rbt) == 10
 
 
-@handle_not_implemented
+
 def test_max_key():
     empty_rbt = setup_tests()
     three_rbt = setup_three_nodes()
@@ -374,7 +370,7 @@ def test_select():
     assert rbt.select(seven_rbt, 7) == None
 
 
-@handle_not_implemented
+
 def test_rank():
     empty_rbt = setup_tests()
     three_rbt = setup_three_nodes()
@@ -402,7 +398,7 @@ def test_rank():
     assert rbt.rank(seven_rbt, 75) == 7
 
 
-@handle_not_implemented
+
 def test_height():
     empty_rbt = setup_tests()
     one_rbt = setup_one_node()
@@ -422,7 +418,7 @@ def test_height():
     assert rbt.height(seven_rbt) == 2
 
 
-@handle_not_implemented
+
 def test_keys():
     empty_rbt = setup_tests()
     three_rbt = setup_three_nodes()
@@ -455,7 +451,7 @@ def test_keys():
     assert keys["elements"][6] == 70
 
 
-@handle_not_implemented
+
 def test_values():
     empty_rbt = setup_tests()
     three_rbt = setup_three_nodes()
