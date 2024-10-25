@@ -7,16 +7,23 @@ def put(my_bst, key, value):
     my_bst["root"] = insert_node(my_bst["root"], key, value)
     return my_bst
 
+#todavía no lo hemos completado
 def insert_node(root, key, value):
+    contador = 0
     if root is None:
-        nodo = bst_node.new_node(key, value)
+        nodo = rbt_node.new_node(key, value)
         root = nodo
-    elif bst_node.get_key(root) == key:
+    elif rbt_node.get_key(root) == key:
         root["value"] = value
     elif root["key"] > key:
         root["left"] = insert_node(root["left"], key, value)
+        contador += 1
+        if contador == 2:
+            rotate_right(root)
     else:
         root["right"] = insert_node(root["right"], key, value)
+        rotate_left(root['right'])
+    #size
     if root["left"] is not None and root["right"] is not None:
         root["size"] = 1 + root["left"]["size"] + root["right"]["size"]
     if root["left"] is None and root["right"] is not None:
@@ -25,11 +32,70 @@ def insert_node(root, key, value):
         root["size"] = 1 + root["left"]["size"]
     return root
 
+def rotate_left(node):
+    """
+    Rota el hijo derecho hacia la izquierda.
+    Args:
+    node: nodo que tiene hijo derecho rojo.
+    Return:
+    Nuevo nodo con el hijo izquierdo rojo
+    Solución:
+    1. Intercambiar el hijo izquierdo del hijo derecho del nodo
+    por el hijo derecho del nodo.
+    2. Intercambia los colores del nodo y del hijo derecho del nodo
+    """
+
+def rotate_right(node):
+    """
+    Rota el hijo izquierdo hacia la derecha.
+    Args:
+    node: nodo que tiene hijo izquierdo rojo.
+    Return:
+    Nuevo nodo con el hijo derecho rojo
+    Solución:
+    1. Intercambiar el hijo derecho del hijo izquierdo del nodo
+    por el hijo izquierdo del nodo.
+    2. Intercambia los colores del nodo y del hijo izquierdo del nodo.
+    """
+    
+
+def flip_colors(node):
+    """
+    Cambiar los colores del nodo y de sus hijos izquierdo
+    y derecho.
+    """
+    flip_node_color(node)
+    flip_node_color(node['left'])
+    flip_node_color(node['right'])
+    
+
+def flip_node_color(node):
+    """
+    Cambiar el color del nodo: RED pasa a BLACK y
+    BLACK pasa a RED.
+    """
+    color = node['color']
+    if color == 'RED':
+        color = 'BLACK'
+    elif color == 'BLACK':
+        color = 'RED'
+
 #funciones que en teoría deberían funcionar
-def new_map():
-    mapa = {'root': None,
-     'type': "RBT"}
-    return mapa
+def new_map(cmp_function):
+    """
+    Crear un mapa ordenado basado en un árbol binario ordenado balanceado RBT.
+    El árbol inicialmente esta vacio.
+    """
+    rbt = {'root': None, # rbt_node inicial
+    'cmp_function': cmp_function, # función de comparación de llaves
+    'type': 'RBT' }
+    if(cmp_function is None):
+        rbt['cmp_function'] = sort_crit
+    return rbt
+
+def sort_crit(ele1, ele2):
+    return ele1 < ele2
+    
 
 def get(my_bst, key):
     valor = recorrido_get(my_bst['root'], key)
