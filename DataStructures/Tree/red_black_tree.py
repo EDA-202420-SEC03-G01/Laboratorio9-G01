@@ -53,7 +53,7 @@ def rotate_left(node):
     #2
     
     
-    """
+
 
 def rotate_right(node):
     """
@@ -102,7 +102,7 @@ def new_map(cmp_function):
     if(cmp_function is None):
         rbt['cmp_function'] = sort_crit
     return rbt
-    """
+
 def sort_crit(ele1, ele2):
     return ele1 < ele2
     
