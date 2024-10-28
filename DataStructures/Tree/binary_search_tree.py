@@ -1,46 +1,6 @@
 from DataStructures.List import array_list as al
 from DataStructures.Tree import bst_node as bst_node
 
-def remove (my_bst, key):
-    my_bst['root'] = remove_rec(my_bst['root'], key, my_bst['cmp_function'])
-    return my_bst
-    
-def remove_rec(nodo, key, cmp_function):
-    """
-    Eliminar el nodo con la key en el BST.
-    Retornar el nodo BST resultante sin el nodo que contiene la key.
-    Args:
-    node: nodo desde donde se busca la key a eliminar
-    key: llave a eliminar
-    Solución:
-    Si el node es None -> retornar None
-    Si el node NO es None:
-    (1) si key es igual a node['key'] (nodo a eliminar) -> revisar Opción 1 casos 1.1, 1.2 y 1.3
-    Actualizar la propiedad 'size' de los nodos involucrados.
-    (2) si key es menor a node['key'] -> Continuar la eliminación por el node['left']
-    (3) si key es mayor a node['key'] -> Continuar la eliminación por el node['right']
-    """
-    llave = bst_node.get_key(nodo)
-    if nodo != None:
-        if key == llave:
-            if root.left is None:
-            return root.right
-
-        # When root has only left child
-        if root.right is None:
-            return root.left
-
-        # When both children are present
-        succ = get_successor(root)
-        root.key = succ.key
-        root.right = del_node(root.right, succ.key)
-        elif key > llave:
-            return recorrido_get(nodo['right'],key)
-        else:
-            return recorrido_get(nodo['left'],key)
-    else:
-        return None
-
 def new_map():
     mapa = {'root': None,
      'type': "BST"}

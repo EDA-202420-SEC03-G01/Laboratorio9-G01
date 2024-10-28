@@ -178,7 +178,7 @@ def recursive_search_value(nodo,lista):
         al.add_last(lista, nodo['value'])
         recursive_search_value(nodo['right'],lista)
 
-def min_key(my_bst):
+def left_key(my_bst):
     min_llave = min_key_node(my_bst['root'])
     return min_llave
 
@@ -190,7 +190,7 @@ def min_key_node(nodo):
     else:
         return min_key_node(nodo['left'])
 
-def max_key(my_bst):
+def right_key(my_bst):
     min_llave = max_key_node(my_bst['root'])
     return min_llave
 
