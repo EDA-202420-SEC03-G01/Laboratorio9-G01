@@ -203,25 +203,6 @@ def max_key_node(nodo):
         return max_key_node(nodo['right'])
     
 #ya hechas (Santiago)
-def rank(my_bst, key):
-    if my_bst["root"] == None:
-        return 0
-    else:
-        return recursive_rank(my_bst["root"], key)
-
-def recursive_rank(node, key):
-    if node == None:
-        return 0
-    elif node["key"] != key:
-        if node["key"] > key:
-            return recursive_rank(node["left"], key)
-        elif node["key"] < key:
-            return recursive_rank(node["right"], key)
-    else:
-        if node["left"] == None:
-            return 0
-        else:
-            return node["left"]["size"]
 
 def height(my_bst):
     if my_bst == None:
