@@ -3,38 +3,41 @@ from DataStructures.Tree import rbt_node as rbt_node
 
 
 #put de BST
-def put(my_bst, key, value):
-    my_bst["root"] = insert_node(my_bst["root"], key, value)
-    return my_bst
+def put(rbt, key, value):
+    rbt['root'] = insert_node(rbt['root'], key, value, rbt['cmp_function'])
+    rbt['root']['color'] = rbt_node.BLACK
+    return rbt
 
 #todavía no lo hemos completado
-def insert_node(root, key, value):
-    contador = 0
-    if root is None:
-        nodo = rbt_node.new_node(key, value)
-        root = nodo
-    elif rbt_node.get_key(root) == key:
-        root["value"] = value
-    elif root["key"] > key:
-        root["left"] = insert_node(root["left"], key, value)
-        contador += 1
-        if contador == 2:
-            rotate_right(root)
-    else:
-        root["right"] = insert_node(root["right"], key, value)
-        rotate_left(root['right'])
-    #size
-    if root["left"] is not None and root["right"] is not None:
-        root["size"] = 1 + root["left"]["size"] + root["right"]["size"]
-    if root["left"] is None and root["right"] is not None:
-        root["size"] = 1 + root["right"]["size"]
-    if root["right"] is None and root["left"] is not None:
-        root["size"] = 1 + root["left"]["size"]
-    
-    
+def insert_node(root, key, value, cmpfunction):
+    if root is None:     # Se trata de la raíz del árbol
+        root = rbt_node.new_node(key, value)
+        return root
+
+    cmp = cmpfunction(key, root['key'])
+
+    if (cmp < 0):     # La llave a insertar es menor que la raiz
+        root['left'] = insert_node(root['left'],  key, value,
+                                  cmpfunction)
+    elif (cmp > 0):    # La llave a insertar es mayor que la raíz
+        root['right'] = insert_node(root['right'], key, value,
+                                   cmpfunction)
+    else:              # La llave ya se encuentra en la tabla
+        root['value'] = value
+
+        # Se ajusta el balanceo del arbol
+
+    if (rbt_node.is_red(root['right']) and not (rbt_node.is_red(root['left']))):
+        root = rotate_left(root)
+    if (rbt_node.is_red(root['left']) and rbt_node.is_red(root['left']['left'])):
+        root = rotate_right(root)
+    if (rbt_node.is_red(root['left']) and rbt_node.is_red(root['right'])):
+        flip_colors(root)
+    root['size'] = size_tree(root['left']) + size_tree(root['right']) + 1
+
     return root
 
-def rotate_left(node):
+def rotate_left(rbt):
     """ 
     Rota el hijo derecho hacia la izquierda.
     Args:
@@ -47,15 +50,16 @@ def rotate_left(node):
     2. Intercambia los colores del nodo y del hijo derecho del nodo
 
     """
-    #1
-    node["right"]["left"]["left"] = node["right"]
-    node["right"] = node["right"]["left"]
-    #2
-    
-    
+    x = rbt['right']
+    rbt['right'] = x['left']
+    x['left'] = rbt
+    x['color'] = x['left']['color']
+    x['left']['color'] = rbt_node.RED
+    x['size'] = rbt['size']
+    rbt['size'] = size_tree(rbt['left']) + size_tree(rbt['right']) + 1
+    return x
 
-
-def rotate_right(node):
+def rotate_right(rbt):
     """
     Rota el hijo izquierdo hacia la derecha.
     Args:
@@ -67,6 +71,14 @@ def rotate_right(node):
     por el hijo izquierdo del nodo.
     2. Intercambia los colores del nodo y del hijo izquierdo del nodo.
     """
+    x = rbt['left']
+    rbt['left'] = x['right']
+    x['right'] = rbt
+    x['color'] = x['right']['color']
+    x['right']['color'] = rbt_node.RED
+    x['size'] = rbt['size']
+    rbt['size'] = size_tree(rbt['left']) + size_tree(rbt['right']) + 1
+    return x
     
 
 def flip_colors(node):
@@ -79,17 +91,22 @@ def flip_colors(node):
     flip_node_color(node['right'])
     
 
-def flip_node_color(node):
+def flip_node_color(rbnode):
     """
     Cambiar el color del nodo: RED pasa a BLACK y
     BLACK pasa a RED.
     """
-    color = node['color']
-    if color == 'RED':
-        color = 'BLACK'
-    elif color == 'BLACK':
-        color = 'RED'
+    if (rbnode is not None):
+        if (rbnode['color'] == rbt_node.RED):
+            rbnode['color'] = rbt_node.BLACK
+        else:
+            rbnode['color'] = rbt_node.RED
 
+def size_tree(root):
+    if (root is None):
+        return 0
+    else:
+        return root['size']
 #funciones que en teoría deberían funcionar
 def new_map(cmp_function):
     """

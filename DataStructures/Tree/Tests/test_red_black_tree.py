@@ -3,12 +3,12 @@ from DataStructures.Tree import rbt_node as rbt_node
 from DataStructures.Utils.utils import handle_not_implemented
 
 def setup_tests():
-    empty_tree = rbt.new_map()
+    empty_tree = rbt.new_map(None)
 
     return empty_tree
 
 def setup_one_node():
-    one_node = rbt.new_map()
+    one_node = rbt.new_map(None)
     node = rbt_node.new_node(1,1)
     
     one_node["root"] = node
@@ -17,7 +17,7 @@ def setup_one_node():
     return one_node
 
 def setup_three_nodes():
-    three_nodes = rbt.new_map()
+    three_nodes = rbt.new_map(None)
     node_1 = rbt_node.new_node(1, 10)
     node_3 = rbt_node.new_node(10, 100)
     node_2 = rbt_node.new_node(5, 50)
@@ -36,7 +36,7 @@ def setup_three_nodes():
 
 
 def setup_seven_nodes():
-    seven_nodes = rbt.new_map()
+    seven_nodes = rbt.new_map(None)
     node_1 = rbt_node.new_node(10, 100)
     node_2 = rbt_node.new_node(20, 200)
     node_3 = rbt_node.new_node(30, 300)
@@ -72,7 +72,7 @@ def setup_seven_nodes():
 
 
 def test_new_map():
-    empty_rbt = rbt.new_map()
+    empty_rbt = rbt.new_map(None)
 
     print(empty_rbt)
 
@@ -91,7 +91,7 @@ def test_put():
     assert empty_rbt["root"]["value"] == 1
 
     # Insertar a la izquierda en un árbol con 3 nodos
-
+    print(three_rbt)
     rbt.put(three_rbt, 7, 7)
 
     assert three_rbt["root"]["right"]["left"]["key"] == 7
