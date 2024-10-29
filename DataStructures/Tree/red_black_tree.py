@@ -11,7 +11,7 @@ def put(rbt, key, value):
 #todavía no lo hemos completado
 def insert_node(root, key, value, cmpfunction):
     if root is None:     # Se trata de la raíz del árbol
-        root = rbt_node.new_node(key, value)
+        root = rbt_node.new_node(key, value, 1)
         return root
 
     cmp = cmpfunction(key, root['key'])
@@ -108,7 +108,7 @@ def size_tree(root):
     else:
         return root['size']
 #funciones que en teoría deberían funcionar
-def new_map(cmp_function):
+def new_map(cmp_function=None):
     """
     Crear un mapa ordenado basado en un árbol binario ordenado balanceado RBT.
     El árbol inicialmente esta vacio.
@@ -117,11 +117,16 @@ def new_map(cmp_function):
     'cmp_function': cmp_function, # función de comparación de llaves
     'type': 'RBT' }
     if(cmp_function is None):
-        rbt['cmp_function'] = sort_crit
+        rbt['cmp_function'] = cmp_function_
     return rbt
 
-def sort_crit(ele1, ele2):
-    return ele1 < ele2
+def cmp_function_(a, b):
+    if a < b:
+        return -1
+    elif a > b:
+        return 1
+    else:
+        return 0
     
 
 def get(my_bst, key):
