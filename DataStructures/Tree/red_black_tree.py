@@ -1,31 +1,24 @@
 from DataStructures.List import array_list as al
 from DataStructures.Tree import rbt_node as rbt_node
 
-
-#put de BST
 def put(rbt, key, value):
     rbt['root'] = insert_node(rbt['root'], key, value, rbt['cmp_function'])
     rbt['root']['color'] = rbt_node.BLACK
     return rbt
 
-#todavía no lo hemos completado
 def insert_node(root, key, value, cmpfunction):
-    if root is None:     # Se trata de la raíz del árbol
-        root = rbt_node.new_node(key, value, 1)
+    if root is None:   
+        root = rbt_node.new_node(key, value)
         return root
 
     cmp = cmpfunction(key, root['key'])
 
-    if (cmp < 0):     # La llave a insertar es menor que la raiz
-        root['left'] = insert_node(root['left'],  key, value,
-                                  cmpfunction)
-    elif (cmp > 0):    # La llave a insertar es mayor que la raíz
-        root['right'] = insert_node(root['right'], key, value,
-                                   cmpfunction)
-    else:              # La llave ya se encuentra en la tabla
+    if (cmp < 0): 
+        root['left'] = insert_node(root['left'],  key, value, cmpfunction)
+    elif (cmp > 0):  
+        root['right'] = insert_node(root['right'], key, value, cmpfunction)
+    else:             
         root['value'] = value
-
-        # Se ajusta el balanceo del arbol
 
     if (rbt_node.is_red(root['right']) and not (rbt_node.is_red(root['left']))):
         root = rotate_left(root)

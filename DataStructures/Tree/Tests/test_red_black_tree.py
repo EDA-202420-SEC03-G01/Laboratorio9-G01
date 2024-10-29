@@ -101,9 +101,9 @@ def test_put():
     assert three_rbt["root"]["left"]["size"] == 1
 
     # Insertar a la derecha en un árbol con 3 nodos
-    print(three_rbt)
+    
     rbt.put(three_rbt, 3, 3)
-    print(three_rbt)
+    
     assert three_rbt["root"]["left"]["key"] == 3
     assert three_rbt["root"]["left"]["value"] == 3
     assert three_rbt["root"]["left"]["left"]["key"] == 1
