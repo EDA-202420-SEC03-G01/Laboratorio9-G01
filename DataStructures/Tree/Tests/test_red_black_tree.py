@@ -271,13 +271,13 @@ def test_min_key():
     seven_rbt = setup_seven_nodes()
 
     # Verificar la llave mínima de un árbol vacío
-    assert rbt.min_key(empty_rbt) is None
+    assert rbt.left_key(empty_rbt) is None
 
     # Verificar la llave mínima de un árbol con 3 nodos
-    assert rbt.min_key(three_rbt) == 1
+    assert rbt.left_key(three_rbt) == 1
 
     # Verificar la llave mínima de un árbol con 7 nodos
-    assert rbt.min_key(seven_rbt) == 10
+    assert rbt.left_key(seven_rbt) == 10
 
 
 
@@ -287,13 +287,13 @@ def test_max_key():
     seven_rbt = setup_seven_nodes()
 
     # Verificar la llave máxima de un árbol vacío
-    assert rbt.max_key(empty_rbt) is None
+    assert rbt.right_key(empty_rbt) is None
 
     # Verificar la llave máxima de un árbol con 3 nodos
-    assert rbt.max_key(three_rbt) == 10
+    assert rbt.right_key(three_rbt) == 10
 
     # Verificar la llave máxima de un árbol con 7 nodos
-    assert rbt.max_key(seven_rbt) == 70
+    assert rbt.right_key(seven_rbt) == 70
 
 @handle_not_implemented
 def test_floor():
