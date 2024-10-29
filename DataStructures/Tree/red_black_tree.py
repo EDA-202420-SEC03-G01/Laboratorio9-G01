@@ -193,7 +193,7 @@ def recursive_search_value(nodo,lista):
         al.add_last(lista, nodo['value'])
         recursive_search_value(nodo['right'],lista)
 
-def min_key(my_bst):
+def left_key(my_bst):
     min_llave = min_key_node(my_bst['root'])
     return min_llave
 
@@ -205,7 +205,7 @@ def min_key_node(nodo):
     else:
         return min_key_node(nodo['left'])
 
-def max_key(my_bst):
+def right_key(my_bst):
     min_llave = max_key_node(my_bst['root'])
     return min_llave
 
@@ -218,25 +218,6 @@ def max_key_node(nodo):
         return max_key_node(nodo['right'])
     
 #ya hechas (Santiago)
-def rank(my_bst, key):
-    if my_bst["root"] == None:
-        return 0
-    else:
-        return recursive_rank(my_bst["root"], key)
-
-def recursive_rank(node, key):
-    if node == None:
-        return 0
-    elif node["key"] != key:
-        if node["key"] > key:
-            return recursive_rank(node["left"], key)
-        elif node["key"] < key:
-            return recursive_rank(node["right"], key)
-    else:
-        if node["left"] == None:
-            return 0
-        else:
-            return node["left"]["size"]
 
 def height(my_bst):
     if my_bst == None:

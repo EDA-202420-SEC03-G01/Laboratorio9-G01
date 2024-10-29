@@ -123,78 +123,12 @@ def max_key_node(nodo):
     else:
         return max_key_node(nodo['right'])
 
-#cambiar
-def delete_min(my_bst):
-    my_bst['root'] = delete_min_rec(my_bst['root'])
-    return my_bst
-
 #no funciona todavía
-def delete_min_rec(nodo):
-    if nodo is None:
-        return None
-    else:
-        if nodo['left'] is None:
-            return nodo['right']
-        else:
-            delete_min_rec(nodo['left'])
-            nodo['size'] -= 1
-
-def delete_max(my_bst):
-    max_llave = max_key(my_bst)
-    remove(my_bst, max_llave)
-    return my_bst
-
-def floor(my_bst, key):
-    lista = key_set(my_bst)
-    pos = al.is_present(lista, key, cmp_function)
-    llave_menor = None
-    if al.is_empty(lista) != True:
-        if pos != 0:
-            llave_menor = lista[pos-1]
-        else:
-            llave_menor = lista[pos]
-    return llave_menor
-
-def ceiling(my_bst, key):
-    lista = key_set(my_bst)
-    pos = al.is_present(lista, key, cmp_function)
-    llave_mayor = None
-    if al.is_empty(lista) != True:
-        if pos != al.size(lista):
-            llave_mayor = lista[pos+1]
-        else:
-            llave_mayor = lista[pos]
-    return llave_mayor
-
-def select(my_bst, pos):
-    lista = key_set(my_bst)
-    return ceiling(my_bst,lista[pos])
-
 def cmp_function(uno, dos):
     if uno == dos:
         return 0
     
 #ya hechas
-def rank(my_bst, key):
-    if my_bst["root"] == None:
-        return 0
-    else:
-        return recursive_rank(my_bst["root"], key)
-
-def recursive_rank(node, key):
-    if node == None:
-        return 0
-    elif node["key"] != key:
-        if node["key"] > key:
-            return recursive_rank(node["left"], key)
-        elif node["key"] < key:
-            return recursive_rank(node["right"], key)
-    else:
-        if node["left"] == None:
-            return 0
-        else:
-            return node["left"]["size"]
-
 def height(my_bst):
     if my_bst == None:
         return -1

@@ -28,9 +28,14 @@ import os
 import csv
 import datetime
 
-# TODO Realice la importación del Árbol Rojo Negro
-# TODO Realice la importación de ArrayList (al) o SingleLinked (sl) como estructura de datos auxiliar para sus requerimientos
-# TODO Realice la importación de LinearProbing (lp) o Separate Chaining (sp) como estructura de datos auxiliar para sus requerimientos
+
+from DataStructures.Tree import red_black_tree as rbt
+from DataStructures.Tree import rbt_node as rbt_node
+from DataStructures.List import array_list as al
+from DataStructures.Map import map_separate_chaining as sc
+# Todo's Sarah Realice la importación del Árbol Rojo Negro
+# Todo's Sarah Realice la importación de ArrayList (al) o SingleLinked (sl) como estructura de datos auxiliar para sus requerimientos
+# Todo's Sarah Realice la importación de LinearProbing (lp) o Separate Chaining (sp) como estructura de datos auxiliar para sus requerimientos
 
 data_dir = os.path.dirname(os.path.realpath('__file__')) + '/Data/'
 
@@ -52,7 +57,8 @@ def new_logic():
 
     analyzer["crimes"] = al.new_list()
     analyzer["dateIndex"] = rbt.new_map()
-    # TODO Crear el índice ordenado por áreas reportadas
+    analyzer["areaIndex"] = rbt.new_map()
+    # Todo's Sarah Crear el índice ordenado por áreas reportadas
     return analyzer
 
 # Funciones para realizar la carga
@@ -79,8 +85,8 @@ def add_crime(analyzer, crime):
     """
     al.add_last(analyzer['crimes'], crime)
     update_date_index(analyzer['dateIndex'], crime)
-    # TODO Actualizar el indice por areas reportadas
-
+    update_area_index(analyzer['areaIndex'], crime)
+    # Todo's Sarah Actualizar el indice por areas reportadas
     return analyzer
 
 def update_area_index(map, crime):
@@ -90,15 +96,40 @@ def update_area_index(map, crime):
     si el area es nueva, se crea una entrada para el indice y se adiciona
     y si el area son ["", " ", None] se utiliza el valor por defecto 9999
     """
-    # TODO Implementar actualizacion del indice por areas reportadas
+    # Todo's Sarah Implementar actualizacion del indice por areas reportadas
     # revisar si el area es un str vacio ["", " ", None]
     # area desconocida es 9999
-
     # revisar si el area ya esta en el indice
-
     # si el area ya esta en el indice, adicionar el crimen a la lista
+    reporting_area = crime['REPORTING_AREA']
+    entry = rbt.get(map, reporting_area)
+    if entry is None:
+        areaentry = new_area_entry(crime)
+        rbt.put(map, reporting_area, entry)
+    else:
+        areaentry = entry
+    add_area_index(areaentry, crime) 
     return map
 
+def add_area_index(areaentry, crime):
+    """
+    Actualiza un indice de tipo de crimenes.  Este indice tiene una lista
+    de crimenes y una tabla de hash cuya llave es el tipo de crimen y
+    el valor es una lista con los crimenes de dicho tipo en la fecha que
+    se está consultando (dada por el nodo del arbol)
+    """
+    lst = areaentry["lstcrimes"]
+    al.add_last(lst, crime)
+    return areaentry
+
+def new_area_entry(crime):
+    """
+    Crea una entrada en el indice por fechas, es decir en el arbol
+    binario.
+    """
+    entry = {'lstcrimes': None}
+    entry['lstcrimes'] = al.new_list()
+    return entry
 
 def update_date_index(map, crime):
     """
@@ -131,11 +162,11 @@ def add_date_index(datentry, crime):
     lst = datentry["lstcrimes"]
     al.add_last(lst, crime)
     offenseIndex = datentry["offenseIndex"]
-    offentry = lp.get(offenseIndex, crime["OFFENSE_CODE_GROUP"])
+    offentry = sc.get(offenseIndex, crime["OFFENSE_CODE_GROUP"])
     if (offentry is None):
         entry = new_offense_entry(crime["OFFENSE_CODE_GROUP"], crime)
         al.add_last(entry["lstoffenses"], crime)
-        lp.put(offenseIndex, crime["OFFENSE_CODE_GROUP"], entry)
+        sc.put(offenseIndex, crime["OFFENSE_CODE_GROUP"], entry)
     else:
         entry = offentry
         al.add_last(entry["lstoffenses"], crime)
@@ -148,7 +179,7 @@ def new_data_entry(crime):
     binario.
     """
     entry = {'offenseIndex': None, 'lstcrimes': None}
-    entry['offenseIndex'] = lp.new_map(num_elements=30,
+    entry['offenseIndex'] = sc.new_map(num_elements=30,
                                         load_factor=0.5)
     entry['lstcrimes'] = al.new_list()
     return entry
@@ -195,53 +226,57 @@ def min_key(analyzer):
     """
     Llave mas pequena
     """
-    return rbt.left_key(analyzer["dateIndex"])
+    return rbt.min_key(analyzer["dateIndex"])
 
 
 def max_key(analyzer):
     """
     Llave mas grande
     """
-    return rbt.right_key(analyzer["dateIndex"])
+    return rbt.max_key(analyzer["dateIndex"])
 
 
 def index_height_areas(analyzer):
     """
     Altura del arbol por areas
     """
-    # TODO Retornar la altura del árbol por areas
-    pass
+    # Todo's Sarah Retornar la altura del árbol por areas
+    return rbt.height(analyzer["areaIndex"])
 
 
 def index_size_areas(analyzer):
     """
     Numero de elementos en el indice por areas
     """
-    # TODO Retornar el numero de elementos en el árbol por areas
-    pass
+    # Todo's Sarah Retornar el numero de elementos en el árbol por areas
+    return rbt.size(analyzer["areaIndex"])
 
 
 def min_key_areas(analyzer):
     """
     Llave mas pequena por areas
     """
-    # TODO Retornar la llave más pequeña del árbol por áreas
-    pass
+    # Todo's Sarah Retornar la llave más pequeña del árbol por áreas
+    return rbt.left_key(analyzer["areaIndex"])
 
 
 def max_key_areas(analyzer):
     """
     Llave mas grande por areas
     """
-    # TODO Retornar la llave más grande del árbol por áreas
-    pass
+    # Todo's Sarah Retornar la llave más grande del árbol por áreas
+    return rbt.right_key(analyzer["areaIndex"])
 
 def get_crimes_by_range_area(analyzer, initialArea, finalArea):
     """
     Retorna el numero de crimenes en un rango de areas
     """
-    # TODO Completar la consulta de crimenes por rango de areas
+    # Todo's Sarah Completar la consulta de crimenes por rango de areas
     totalcrimes = 0
+    lst = rbt.values(analyzer["dateIndex"], initialArea, finalArea)
+    totalcrimes = 0
+    for lstdate in lst["elements"]:
+        totalcrimes += al.size(lstdate["lstcrimes"])
     return totalcrimes
 
 def get_crimes_by_range(analyzer, initialDate, finalDate):
@@ -266,7 +301,7 @@ def get_crimes_by_range_code(analyzer, initialDate, offensecode):
     crimedate = rbt.get(analyzer["dateIndex"], initialDate.date())
     if crimedate is not None:
         offensemap = crimedate["offenseIndex"]
-        numoffenses = lp.get(offensemap, offensecode)
+        numoffenses = sc.get(offensemap, offensecode)
         if numoffenses is not None:
-            return lp.size(numoffenses["lstoffenses"])
+            return sc.size(numoffenses["lstoffenses"])
     return 0
