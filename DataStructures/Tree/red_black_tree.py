@@ -245,23 +245,21 @@ def keys(my_bst, lo_key, hi_key):
     if my_bst != None:
         if my_bst["root"] != None:
             recursive_search_keys(my_bst["root"], lo_key, hi_key, key_list)
-    al.quick_sort(key_list, sort_crit)
     return key_list
 
 def values(my_bst, lo_key, hi_key):
-    key_list = al.new_list()
+    value_list = al.new_list()
     if my_bst != None:
         if my_bst["root"] != None:
-            recursive_search_values(my_bst["root"], lo_key, hi_key, key_list)
-    al.quick_sort(key_list, sort_crit)
-    return key_list
+            recursive_search_values(my_bst["root"], lo_key, hi_key, value_list)
+    return value_list
 
 def recursive_search_keys(nodo, lo_key, hi_key, lista):
     if nodo != None:
         if lo_key <= nodo["key"] <= hi_key:
-            al.add_last(lista, nodo["key"])
-            recursive_search_keys(nodo["right"], lo_key, hi_key, lista)
-            recursive_search_keys(nodo["left"], lo_key, hi_key, lista)
+            recursive_search_keys(nodo['left'],lo_key, hi_key, lista)
+            al.add_last(lista, nodo['key'])
+            recursive_search_keys(nodo['right'],lo_key, hi_key, lista)
         elif nodo["key"] > hi_key:
             recursive_search_keys(nodo["left"], lo_key, hi_key, lista)
         elif nodo["key"] < lo_key:
@@ -269,11 +267,11 @@ def recursive_search_keys(nodo, lo_key, hi_key, lista):
 
 def recursive_search_values(nodo, lo_key, hi_key, lista):
     if nodo != None:
-        if lo_key <= nodo["value"] <= hi_key:
-            al.add_last(lista, nodo["value"])
-        recursive_search_values(nodo["right"], lo_key, hi_key, lista)
-        recursive_search_values(nodo["left"], lo_key, hi_key, lista)
-        
-
-def sort_crit(ele1, ele2):
-    return ele1 < ele2
+        if lo_key <= nodo["key"] <= hi_key:
+            recursive_search_values(nodo['left'],lo_key, hi_key, lista)
+            al.add_last(lista, nodo['value'])
+            recursive_search_values(nodo['right'],lo_key, hi_key, lista)
+        elif nodo["key"] > hi_key:
+            recursive_search_values(nodo["left"], lo_key, hi_key, lista)
+        elif nodo["key"] < lo_key:
+            recursive_search_values(nodo["right"], lo_key, hi_key, lista)   

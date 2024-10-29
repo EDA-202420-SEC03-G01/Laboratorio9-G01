@@ -101,11 +101,14 @@ def update_area_index(map, crime):
     # area desconocida es 9999
     # revisar si el area ya esta en el indice
     # si el area ya esta en el indice, adicionar el crimen a la lista
-    reporting_area = crime['REPORTING_AREA']
+    if crime['REPORTING_AREA'] == "" or crime['REPORTING_AREA'] == " ":
+        reporting_area = 9999
+    else:
+        reporting_area = int(crime['REPORTING_AREA'])
     entry = rbt.get(map, reporting_area)
     if entry is None:
         areaentry = new_area_entry(crime)
-        rbt.put(map, reporting_area, entry)
+        rbt.put(map, reporting_area, areaentry)
     else:
         areaentry = entry
     add_area_index(areaentry, crime) 
@@ -273,10 +276,10 @@ def get_crimes_by_range_area(analyzer, initialArea, finalArea):
     """
     # Todo's Sarah Completar la consulta de crimenes por rango de areas
     totalcrimes = 0
-    lst = rbt.values(analyzer["dateIndex"], initialArea, finalArea)
+    lst = rbt.values(analyzer["areaIndex"], int(initialArea), int(finalArea))
     totalcrimes = 0
-    for lstdate in lst["elements"]:
-        totalcrimes += al.size(lstdate["lstcrimes"])
+    for area in lst["elements"]:
+        totalcrimes += al.size(area["lstcrimes"])
     return totalcrimes
 
 def get_crimes_by_range(analyzer, initialDate, finalDate):
